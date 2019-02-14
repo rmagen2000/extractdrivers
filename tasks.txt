@@ -1,0 +1,9 @@
+1. Add installer to project.
+2. Open user at github.
+3. Add project to Github.
+4. Upload source to Github.
+
+for next version:
+==================
+1. place the windows key at the textbox 
+(if you can't then include in the project external exe called showkeyplus.exe and a button to run it).

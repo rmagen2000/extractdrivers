@@ -1,0 +1,10 @@
+1. Display output of powershell to textbox (set textbox to multiline).
+2. Rearrange the form:
+-label of path place below select button.
+-Default label text will be: No directory for saving drivers selected.
+-Run button place at the right of select path buttoon.
+-change the run button text to display Go.
+3. place the PC name at the top of the textbox.
+4. Include at the textfile windows type and version (open cmd and run winver).
+5. place the windows key at the textbox 
+(if you can't then include in the project external exe called showkeyplus.exe and a button to run it).
