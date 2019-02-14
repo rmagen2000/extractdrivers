@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-//using System.Management.Automation;
 using System.Threading;
 using System.IO;
 
@@ -33,11 +32,9 @@ namespace ExtractDrivers
 
         private void btnRun_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show(System.Environment.OSVersion.ToString());
-            
             if (path.Text.ToString() == "No directory for saving drivers selected")
             {
-                MessageBox.Show("No path selected!","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("No path selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 path.ForeColor = Color.Red;
             }
             else
@@ -55,13 +52,17 @@ namespace ExtractDrivers
                     System.IO.File.Delete(cmd_path);
                 //MessageBox.Show(cmd_path);
                 path.ForeColor = Color.Black;
-                String cmd2run="PowerShell Export-WindowsDriver -Online -Destination " + "'"+ path.Text.ToString()+"' >"+cmd_path;
+                String cmd2run = "PowerShell Export-WindowsDriver -Online -Destination " + "'" + path.Text.ToString() + "' >" + cmd_path;
                 //MessageBox.Show(cmd2run);
-                System.IO.File.WriteAllText(@"extractDriver.cmd", cmd2run);
+                String cmdfp = tmp_path + "extractDriver.cmd";
+                if (System.IO.File.Exists(cmdfp))
+                    System.IO.File.Delete(cmdfp);
+                //MessageBox.Show(cmdfp);
+                System.IO.File.WriteAllText(cmdfp, cmd2run);
                 ProcessStartInfo procInfo = new ProcessStartInfo();
                 procInfo.UseShellExecute = true;
                 procInfo.FileName = @"extractDriver.cmd";
-                procInfo.WorkingDirectory = @"";
+                procInfo.WorkingDirectory = tmp_path;
                 procInfo.Verb = "runas";
                 Application.DoEvents();
                 procInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -79,16 +80,16 @@ namespace ExtractDrivers
                 //MessageBox.Show(text);
                 String pc_name = System.Environment.MachineName.ToString();
                 String os_name1 = System.Environment.OSVersion.VersionString.ToString();
-                String text=os_name1+"\r\nTimestamp:"+DateTime.Now.ToString()+"\r\n"+pc_name+"\r\n"+returned;
+                String text = os_name1 + "\r\nTimestamp:" + DateTime.Now.ToString() + "\r\n" + pc_name + "\r\n" + returned;
                 output.Text = text;
                 String filename = "DriversInfo.txt";
                 String new_path = System.IO.Path.Combine(path.Text, filename);
                 //MessageBox.Show(new_path);
-                System.IO.File.WriteAllText(new_path,text);
+                System.IO.File.WriteAllText(new_path, text);
                 btnRun.Enabled = true;
                 btnSelDir.Enabled = true;
             }
-            
+
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
